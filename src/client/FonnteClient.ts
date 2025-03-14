@@ -3,23 +3,27 @@ import { FonnteConfig, MessageOptions, FonnteResponse } from '../types';
 import { validatePhoneNumber, formatError } from '../utils';
 
 /**
- * Fonnte WhatsApp API Client
+ * FonnteClient - Main client for interacting with the Fonnte WhatsApp API
+ * 
+ * Note: One API key corresponds to one device in Fonnte's system
  */
 export class FonnteClient {
   private apiKey: string;
   private baseUrl: string;
-  private deviceId?: string;
   private timeout: number;
   private axiosInstance: AxiosInstance;
 
   /**
-   * Create a new Fonnte WhatsApp client
-   * @param config Client configuration
+   * Creates a new FonnteClient instance
+   * 
+   * @param config - Configuration options
+   * @param config.apiKey - API key from Fonnte dashboard
+   * @param config.baseUrl - Base URL for API requests (optional, defaults to 'https://api.fonnte.com')
+   * @param config.timeout - Request timeout in milliseconds (optional, defaults to 30000)
    */
   constructor(config: FonnteConfig) {
     this.apiKey = config.apiKey;
     this.baseUrl = config.baseUrl || 'https://api.fonnte.com';
-    this.deviceId = config.deviceId;
     this.timeout = config.timeout || 30000;
 
     // Create axios instance with default configuration
@@ -34,9 +38,12 @@ export class FonnteClient {
   }
 
   /**
-   * Send a text message
-   * @param options Message options
-   * @returns Promise with the API response
+   * Sends a text message to a WhatsApp number
+   * 
+   * @param options - Message options
+   * @param options.target - Target phone number with country code (e.g., '628123456789')
+   * @param options.message - Message text content
+   * @returns Promise resolving to the API response
    */
   public async sendMessage(options: MessageOptions): Promise<FonnteResponse> {
     try {
@@ -46,8 +53,7 @@ export class FonnteClient {
       // Prepare request data
       const data: Record<string, any> = {
         target,
-        message: options.message,
-        device: options.deviceId || this.deviceId
+        message: options.message
       };
 
       // Add optional parameters if provided
@@ -98,9 +104,13 @@ export class FonnteClient {
   }
 
   /**
-   * Send a media message (image, video, document)
-   * @param options Message options with URL
-   * @returns Promise with the API response
+   * Sends a media message (image, video, audio) to a WhatsApp number
+   * 
+   * @param options - Media message options
+   * @param options.target - Target phone number with country code
+   * @param options.message - Message text content
+   * @param options.url - URL of the media to send
+   * @returns Promise resolving to the API response
    */
   public async sendMedia(options: MessageOptions): Promise<FonnteResponse> {
     if (!options.url) {
@@ -114,9 +124,14 @@ export class FonnteClient {
   }
 
   /**
-   * Send a document
-   * @param options Message options with URL and filename
-   * @returns Promise with the API response
+   * Sends a document to a WhatsApp number
+   * 
+   * @param options - Document message options
+   * @param options.target - Target phone number with country code
+   * @param options.message - Message text content
+   * @param options.url - URL of the document to send
+   * @param options.filename - Filename to display for the document
+   * @returns Promise resolving to the API response
    */
   public async sendDocument(options: MessageOptions): Promise<FonnteResponse> {
     if (!options.url) {
@@ -137,9 +152,15 @@ export class FonnteClient {
   }
 
   /**
-   * Send a button message
-   * @param options Message options with buttonTemplate
-   * @returns Promise with the API response
+   * Sends a button message to a WhatsApp number
+   * 
+   * @param options - Button message options
+   * @param options.target - Target phone number with country code
+   * @param options.message - Message text content
+   * @param options.buttonTemplate - Button template configuration
+   * @param options.footer - Optional footer text
+   * @param options.header - Optional header text
+   * @returns Promise resolving to the API response
    */
   public async sendButtons(options: MessageOptions): Promise<FonnteResponse> {
     if (!options.buttonTemplate || !options.buttonTemplate.buttons.length) {
@@ -153,9 +174,14 @@ export class FonnteClient {
   }
 
   /**
-   * Send a list message
-   * @param options Message options with listTemplate
-   * @returns Promise with the API response
+   * Sends a list message to a WhatsApp number
+   * 
+   * @param options - List message options
+   * @param options.target - Target phone number with country code
+   * @param options.message - Message text content
+   * @param options.listTemplate - List template configuration
+   * @param options.footer - Optional footer text
+   * @returns Promise resolving to the API response
    */
   public async sendList(options: MessageOptions): Promise<FonnteResponse> {
     if (!options.listTemplate || !options.listTemplate.sections.length) {
@@ -169,24 +195,13 @@ export class FonnteClient {
   }
 
   /**
-   * Get device status
-   * @param deviceId Optional device ID (uses default if not provided)
-   * @returns Promise with the API response
+   * Gets the status of the connected device
+   * 
+   * @returns Promise resolving to the device status response
    */
-  public async getDeviceStatus(deviceId?: string): Promise<FonnteResponse> {
+  public async getDeviceStatus(): Promise<FonnteResponse> {
     try {
-      const device = deviceId || this.deviceId;
-      
-      if (!device) {
-        return {
-          status: false,
-          message: 'Device ID is required'
-        };
-      }
-      
-      const response = await this.axiosInstance.get('/device', {
-        params: { device }
-      });
+      const response = await this.axiosInstance.get('/device');
       
       return {
         status: response.data.status || true,

@@ -24,11 +24,11 @@ npm install fonnte-wa
 import { FonnteClient } from 'fonnte-wa';
 
 // Initialize the client
+// Note: One API key corresponds to one device in Fonnte's system
 const client = new FonnteClient({
   apiKey: 'your-api-key-from-fonnte-dashboard',
   // Optional parameters
   // baseUrl: 'https://api.fonnte.com', // Default API URL
-  // deviceId: 'your-device-id', // Default device ID
   // timeout: 30000 // Request timeout in milliseconds
 });
 

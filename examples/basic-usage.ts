@@ -5,9 +5,7 @@ const API_KEY = 'your-api-key-here';
 
 // Initialize the client
 const client = new FonnteClient({
-  apiKey: API_KEY,
-  // Optional: Set a default device ID
-  // deviceId: 'your-device-id'
+  apiKey: API_KEY
 });
 
 // Example: Send a text message

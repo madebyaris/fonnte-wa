@@ -1,7 +1,7 @@
 {
   "name": "fonnte-wa",
-  "version": "1.0.1",
-  "description": "A modular WhatsApp integration package for Fonnte API",
+  "version": "1.0.2",
+  "description": "A modular WhatsApp integration package for the Fonnte API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

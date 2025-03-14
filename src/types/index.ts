@@ -6,8 +6,6 @@ export interface FonnteConfig {
   apiKey: string;
   /** Base URL for Fonnte API (optional) */
   baseUrl?: string;
-  /** Default device ID (optional) */
-  deviceId?: string;
   /** Default timeout in milliseconds (optional) */
   timeout?: number;
 }
@@ -22,8 +20,6 @@ export interface MessageOptions {
   message: string;
   /** URL of the media to send (optional) */
   url?: string;
-  /** Device ID to use for sending (optional, overrides default) */
-  deviceId?: string;
   /** Schedule time in timestamp format (optional) */
   schedule?: number;
   /** Delay between messages in seconds (optional) */

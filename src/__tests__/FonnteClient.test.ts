@@ -63,8 +63,7 @@ describe('FonnteClient', () => {
       // Verify axios was called with correct parameters
       expect(mockAxiosInstance.post).toHaveBeenCalledWith('/send', {
         target: '628123456789',
-        message: 'Test message',
-        device: undefined
+        message: 'Test message'
       });
       
       // Verify response
@@ -120,7 +119,6 @@ describe('FonnteClient', () => {
         target: '628123456789',
         message: 'Test message',
         url: 'https://example.com/image.jpg',
-        deviceId: 'device123',
         typing: true,
         footer: 'Footer text'
       };
@@ -132,7 +130,6 @@ describe('FonnteClient', () => {
       expect(mockAxiosInstance.post).toHaveBeenCalledWith('/send', {
         target: '628123456789',
         message: 'Test message',
-        device: 'device123',
         url: 'https://example.com/image.jpg',
         typing: true,
         footer: 'Footer text'
@@ -173,13 +170,11 @@ describe('FonnteClient', () => {
         }
       });
       
-      // Call the method with a device ID
-      const response = await client.getDeviceStatus('device123');
+      // Call the method
+      const response = await client.getDeviceStatus();
       
       // Verify axios was called with correct parameters
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/device', {
-        params: { device: 'device123' }
-      });
+      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/device');
       
       // Verify response
       expect(response).toEqual({
@@ -191,20 +186,6 @@ describe('FonnteClient', () => {
           data: { status: 'connected' }
         }
       });
-    });
-    
-    it('should require a device ID', async () => {
-      // Call the method without a device ID and no default
-      const response = await client.getDeviceStatus();
-      
-      // Verify response
-      expect(response).toEqual({
-        status: false,
-        message: 'Device ID is required'
-      });
-      
-      // Verify axios was not called
-      expect(mockAxiosInstance.get).not.toHaveBeenCalled();
     });
   });
 }); 

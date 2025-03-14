@@ -4,6 +4,7 @@
 const { FonnteClient, FonnteWebhook } = require('fonnte-wa');
 
 // Initialize the client with your API key
+// Note: One API key corresponds to one device in Fonnte's system
 const client = new FonnteClient({
   apiKey: 'your-api-key-from-fonnte-dashboard'
 });
