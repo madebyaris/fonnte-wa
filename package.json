@@ -22,12 +22,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/fonnte-wa"
+    "url": "https://github.com/madebyaris/fonnte-wa"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/fonnte-wa/issues"
+    "url": "https://github.com/com/madebyaris/fonnte-wa/issues"
   },
-  "homepage": "https://github.com/yourusername/fonnte-wa#readme",
+  "homepage": "https://github.com/com/madebyaris/fonnte-wa#readme",
   "files": [
     "dist",
     "LICENSE",
